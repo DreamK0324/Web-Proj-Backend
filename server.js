@@ -94,8 +94,8 @@ bootApp();
 const PORT = 5001;
 app.listen(PORT, console.log(`Server started on ${PORT}`));
 
-sequelize.sync().then(() => {
-  app.listen(5001, () => {
-      console.log("Server has started on port 4000");
-  });
-});
+// sequelize.sync().then(() => {
+//   app.listen(5001, () => {
+//       console.log("Server has started on port 4000");
+//   });
+// });
