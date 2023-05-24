@@ -270,7 +270,6 @@ sequelize.sync().then(() => {
     app.listen(4000, () => {
       console.log("Server has started on port 4000");
 
-      
     });
   });
   
