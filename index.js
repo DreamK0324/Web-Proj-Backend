@@ -214,6 +214,11 @@ app.delete('/tasks/:id', async (req, res) => {
   }
 });
 
+// Route handler for the root path ("/")
+app.get("/", (req, res) => {
+    res.send("Welcome to the root path!");
+  });
+
 // Start the server
 sequelize.sync().then(() => {
   const port = process.env.PORT || 4000;
