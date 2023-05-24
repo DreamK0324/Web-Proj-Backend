@@ -107,8 +107,15 @@ app.post("/tasks", async (req, res) => {
 });
 
 
+/**
+ * search by using "get"
+ */
 
-// Getting all employees // http://localhost:4006/employees
+/**
+ * @how
+ * API will be http://localhost:4006/employees
+ */
+// Getting all employees
 app.get("/employees", async (req, res) => {
     try {
         const allEmployees = await Employee.findAll();
@@ -120,8 +127,11 @@ app.get("/employees", async (req, res) => {
 });
 
 
-
-// Getting all tasks  // http://localhost:4006/tasks
+/**
+* @how
+* API will be http://localhost:4006/tasks
+*/
+// Get all tasks
 app.get("/tasks", async (req, res) => {
     try {
         const allTasks = await Task.findAll();
@@ -132,8 +142,7 @@ app.get("/tasks", async (req, res) => {
     }
 });
 
-
-// Getting single employee by id // http://localhost:4006/employees/:id
+// Getting single employee by id // http://localhost:4006/employees/1
 app.get("/employees/:id", async (req, res) => {
     try {
         const { id } = req.params;
@@ -145,9 +154,7 @@ app.get("/employees/:id", async (req, res) => {
     }
 });
 
-
-
-// Getting task by id  // http://localhost:4006/tasks/:id
+//gets task by id  // http://localhost:4006/tasks/2
 app.get("/tasks/:id", async (req, res) => {
     try {
         const { id } = req.params;
@@ -165,10 +172,44 @@ app.get("/tasks/:id", async (req, res) => {
     }
 });
 
+/**
+ * edit uses "put"
+ */
 
+// Editing employee by id  // http://localhost:4006/employees/:id
+app.put("/employees/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { employee_first_name, employee_last_name, department_name } = req.body;
 
+        // Find the employee by ID
+        const employee = await Employee.findByPk(id);
 
-// Editing a task   
+        if (!employee) {
+            return res.status(404).json({ error: "Employee not found" });
+        }
+
+        // Update the employee's properties
+        employee.employee_first_name = employee_first_name;
+        employee.employee_last_name = employee_last_name;
+        employee.department_name = department_name;
+
+        // Save the updated employee
+        await employee.save();
+
+        res.json("Employee was updated!");
+    } 
+    catch (err) {
+        console.error(err.message);
+        res.status(500).json({ error: "Server error" });
+    }
+});
+
+/**
+ * @how
+ * API will be http://localhost:4006/tasks/:id
+ */
+// Editing a task
 app.put('/tasks/:id', async (req, res) => {
     try {
         const { id } = req.params;
@@ -201,37 +242,24 @@ app.put('/tasks/:id', async (req, res) => {
 
 
 
-// Editing employee by id  
-app.put("/employees/:id", async (req, res) => {
+// Deleting a employee
+app.delete('/employees/:id', async (req, res) => {
     try {
-        const { id } = req.params;
-        const { employee_first_name, employee_last_name, department_name } = req.body;
-
-        // Find the employee by ID
-        const employee = await Employee.findByPk(id);
-
-        if (!employee) {
-            return res.status(404).json({ error: "Employee not found" });
-        }
-
-        // Update the employee's properties
-        employee.employee_first_name = employee_first_name;
-        employee.employee_last_name = employee_last_name;
-        employee.department_name = department_name;
-
-        // Save the updated employee
-        await employee.save();
-
-        res.json("Employee was updated!");
+      const { id } = req.params;
+      const employee = await Employee.findByPk(id);
+  
+      if (!employee) {
+        return res.status(404).json({ error: 'Employee not found' });
+      }
+  
+      await employee.destroy();
+      res.json('Employee was deleted!');
     } 
     catch (err) {
-        console.error(err.message);
-        res.status(500).json({ error: "Server error" });
+      console.error(err.message);
+      res.status(500).json({ error: 'Server error' });
     }
-});
-
-
-
+  });
 
 // Deleting a task
 app.delete('/tasks/:id', async (req, res) => {
@@ -252,29 +280,7 @@ app.delete('/tasks/:id', async (req, res) => {
     }
   });
 
-
-// Deleting a employee
-app.delete('/employees/:id', async (req, res) => {
-    try {
-      const { id } = req.params;
-      const employee = await Employee.findByPk(id);
-  
-      if (!employee) {
-        return res.status(404).json({ error: 'Employee not found' });
-      }
-  
-      await employee.destroy();
-      res.json('Employee was deleted!');
-    } 
-    catch (err) {
-      console.error(err.message);
-      res.status(500).json({ error: 'Server error' });
-    }
-  });
-
-
-
-// listening to the server
+// Listening to the server
 sequelize.sync().then(() => {
     const port = process.env.PORT || 4006;
     app.listen(port, () => {
