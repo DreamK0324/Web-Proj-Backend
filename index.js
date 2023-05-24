@@ -273,3 +273,4 @@ sequelize.sync().then(() => {
   });
   
  
+// ok
