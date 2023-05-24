@@ -1,17 +1,26 @@
 {
   "name": "web-proj-backend",
   "version": "1.0.0",
-  "description": "Web project backend for CS39548",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DreamK0324/Web-Proj-Backend.git"
   },
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DreamK0324/Web-Proj-Backend/issues"
+  },
+  "homepage": "https://github.com/DreamK0324/Web-Proj-Backend#readme",
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.18.2",
-    "pg": "^8.11.0",
+    "nodemon": "^2.0.22",
+    "pg": "^8.10.0",
     "sequelize": "^6.31.1"
   }
 }
