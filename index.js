@@ -8,7 +8,7 @@ const cors = require("cors");
 app.use( cors() );
 app.use( express.json() );
 
-// routes specific 
+// specific routes
 const sequelize = new Sequelize('d25c0l5l7t7n59', 'jihqumowedxuin', 'beeefa2bddc9eda2b7ebb00417458ee5d5d19967bc4f5722fd0b8f8534c398ac', {
     host: 'ec2-34-236-103-63.compute-1.amazonaws.com',
     dialect: 'postgres',
@@ -17,7 +17,7 @@ const sequelize = new Sequelize('d25c0l5l7t7n59', 'jihqumowedxuin', 'beeefa2bddc
     dialectOptions: {
       ssl: {
         require: true,
-        rejectUnauthorized: false // Set this to true on "production"
+        rejectUnauthorized: false // You may need to set this to true on production
       }
     }
   });
@@ -27,10 +27,10 @@ sequelize.authenticate()
     console.log('Successfully established connection.');
   })
   .catch((err) => {
-    console.error('Failed to connect to the database:', err);
+    console.error('Unable to connect to the database:', err);
   });
 
-// Define the model of "Employee"
+// Define the "Employee" model
 const Employee = sequelize.define('Employee', {
     employee_first_name: {
         type: DataTypes.STRING,
@@ -46,9 +46,11 @@ const Employee = sequelize.define('Employee', {
     },
 });
 
+/**
+ * Creating a new uses "post"
+ */
 
-
-// Define the model of "Task"
+// Define the "Task" model
 class Task extends Model { }
 Task.init({
     assigned_to: {
@@ -63,13 +65,12 @@ Task.init({
     completion_status: DataTypes.BOOLEAN
 }, { sequelize, modelName: 'Task' });
 
-
-// A employee creating
+// create a employee
 app.post('/employees', async (req, res) => {
     try {
         const { employee_first_name, employee_last_name, department_name } = req.body;
 
-        // Creating a new employee
+        // Create a new employee using the Employee model
         const newEmployee = await Employee.create({
             employee_first_name,
             employee_last_name,
@@ -77,20 +78,16 @@ app.post('/employees', async (req, res) => {
         });
 
         res.json(newEmployee);
-    } 
-    catch (err) {
+    } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
     }
 });
 
-
-// A task creating
+//creates a task 
 app.post("/tasks", async (req, res) => {
     try {
         const { assigned_to, description, priority_level, completion_status } = req.body;
-
-        // Creating a new task
         const newTask = await Task.create({
             assigned_to,
             description,
@@ -99,74 +96,66 @@ app.post("/tasks", async (req, res) => {
         });
 
         res.json(newTask);
-    } 
-    catch (err) {
+    } catch (err) {
         console.error(err.message);
         res.status(500).json({ error: "Failed to create task" });
     }
 });
 
-
 /**
- * search by using "get"
+ * search uses "get"
  */
 
 /**
  * @how
- * API will be http://localhost:4006/employees
+ * API will be http://localhost:4000/employees
  */
-// Getting all employees
+//get all employees
 app.get("/employees", async (req, res) => {
     try {
         const allEmployees = await Employee.findAll();
         res.json(allEmployees);
-    } 
-    catch (err) {
+    } catch (err) {
         console.error(err.message);
     }
 });
 
-
 /**
 * @how
-* API will be http://localhost:4006/tasks
+* API will be http://localhost:4000/tasks
 */
-// Get all tasks
+//get all tasks
 app.get("/tasks", async (req, res) => {
     try {
         const allTasks = await Task.findAll();
         res.json(allTasks);
-    } 
-    catch (err) {
+    } catch (err) {
         console.error(err.message);
     }
 });
 
-// Getting single employee by id // http://localhost:4006/employees/1
+//gets employee by id // http://localhost:4000/employees/1
 app.get("/employees/:id", async (req, res) => {
     try {
         const { id } = req.params;
         const oneEmployee = await Employee.findByPk(id);
         res.json(oneEmployee);
-    } 
-    catch (err) {
+    } catch (err) {
         console.error(err.message);
     }
 });
 
-//gets task by id  // http://localhost:4006/tasks/2
+//gets task by id // http://localhost:4000/tasks/2
 app.get("/tasks/:id", async (req, res) => {
     try {
         const { id } = req.params;
         const task = await Task.findByPk(id);
         if (task) {
             res.json(task);
-        } 
-        else {
+        } else {
             res.status(404).json({ error: "Task not found" });
         }
-    } 
-    catch (err) {
+    } catch (err) {
         console.error(err.message);
         res.status(500).json({ error: "Server error" });
     }
@@ -176,7 +165,7 @@ app.get("/tasks/:id", async (req, res) => {
  * edit uses "put"
  */
 
-// Editing employee by id  // http://localhost:4006/employees/:id
+// edit employee by id // http://localhost:4000/employees/
 app.put("/employees/:id", async (req, res) => {
     try {
         const { id } = req.params;
@@ -198,8 +187,7 @@ app.put("/employees/:id", async (req, res) => {
         await employee.save();
 
         res.json("Employee was updated!");
-    } 
-    catch (err) {
+    } catch (err) {
         console.error(err.message);
         res.status(500).json({ error: "Server error" });
     }
@@ -207,33 +195,32 @@ app.put("/employees/:id", async (req, res) => {
 
 /**
  * @how
- * API will be http://localhost:4006/tasks/:id
+ * API will be http://localhost:4000/tasks/:id
  */
-// Editing a task
+// edit a task
 app.put('/tasks/:id', async (req, res) => {
     try {
         const { id } = req.params;
         const { assigned_to, description, priority_level, completion_status } = req.body;
 
-        // Finding the task by ID
+        // Find the task by ID
         const task = await Task.findByPk(id);
 
         if (!task) {
             return res.status(404).json({ error: 'Task not found' });
         }
 
-        // Updating the task's properties
+        // Update the task's properties
         task.assigned_to = assigned_to;
         task.description = description;
         task.priority_level = priority_level;
         task.completion_status = completion_status;
 
-        // Saving the updated task
+        // Save the updated task
         await task.save();
 
         res.json('Task was updated!');
-    } 
-    catch (err) {
+    } catch (err) {
         console.error(err.message);
         res.status(500).json({ error: 'Server error' });
     }
@@ -242,7 +229,7 @@ app.put('/tasks/:id', async (req, res) => {
 
 
 
-// Deleting a employee
+// delete a employee
 app.delete('/employees/:id', async (req, res) => {
     try {
       const { id } = req.params;
@@ -254,14 +241,13 @@ app.delete('/employees/:id', async (req, res) => {
   
       await employee.destroy();
       res.json('Employee was deleted!');
-    } 
-    catch (err) {
+    } catch (err) {
       console.error(err.message);
       res.status(500).json({ error: 'Server error' });
     }
   });
 
-// Deleting a task
+// delete a task
 app.delete('/tasks/:id', async (req, res) => {
     try {
       const { id } = req.params;
@@ -273,14 +259,13 @@ app.delete('/tasks/:id', async (req, res) => {
   
       await task.destroy();
       res.json('Task was deleted!');
-    } 
-    catch (err) {
+    } catch (err) {
       console.error(err.message);
       res.status(500).json({ error: 'Server error' });
     }
   });
 
-// Listening to the server
+// listen to the server
 sequelize.sync().then(() => {
     const port = process.env.PORT || 4006;
     app.listen(port, () => {
