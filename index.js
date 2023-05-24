@@ -1,8 +1,8 @@
-const { Sequelize, Model, DataTypes } = require('sequelize');
-const express = require("express");
-const cors = require("cors");
+// const { Sequelize, Model, DataTypes } = require('sequelize');
+// const express = require("express");
+// const cors = require("cors");
 
-const app = express();
+// const app = express();
 
 // // Middleware
 // app.use(cors());
@@ -215,14 +215,27 @@ const app = express();
 // });
 
 // Route handler for the root path ("/")
-app.get("/", (req, res) => {
-    res.send("Welcome to the root path!");
-  });
+// app.get("/", (req, res) => {
+//     res.send("Welcome to the root path!");
+//   });
 
-// Start the server
-sequelize.sync().then(() => {
-  const port = process.env.PORT || 4000;
-  app.listen(port, () => {
-    console.log(`Server has started on port ${port}`);
-  });
+// // Start the server
+// sequelize.sync().then(() => {
+//   const port = process.env.PORT || 4000;
+//   app.listen(port, () => {
+//     console.log(`Server has started on port ${port}`);
+//   });
+// });
+
+
+const express = require("express");
+const app = express();
+
+app.get("/", (reg, res) => {
+    res.send({
+        hey: "guys",
+        welcome: "back",
+    });
 });
+
+app.listen(process.env.PORT || 4000)
