@@ -100,7 +100,7 @@ app.post("/tasks", async (req, res) => {
 });
 
 
-// Geting all employees //http://localhost:4000/employees
+// Getting all employees //http://localhost:4000/employees
 app.get("/employees", async (req, res) => {
     try {
         const allEmployees = await Employee.findAll();
@@ -111,7 +111,7 @@ app.get("/employees", async (req, res) => {
 });
 
 
-// Geting all tasks // http://localhost:4000/tasks
+// Getting all tasks // http://localhost:4000/tasks
 app.get("/tasks", async (req, res) => {
     try {
         const allTasks = await Task.findAll();
@@ -121,7 +121,7 @@ app.get("/tasks", async (req, res) => {
     }
 });
 
-// Geting employee by id // http://localhost:4000/employees/1
+// Getting employee by id // http://localhost:4000/employees/1
 app.get("/employees/:id", async (req, res) => {
     try {
         const { id } = req.params;
@@ -132,7 +132,7 @@ app.get("/employees/:id", async (req, res) => {
     }
 });
 
-// Geting task by id // http://localhost:4000/tasks/2
+// Getting task by id // http://localhost:4000/tasks/2
 app.get("/tasks/:id", async (req, res) => {
     try {
         const { id } = req.params;
@@ -184,7 +184,7 @@ app.put('/tasks/:id', async (req, res) => {
         const { id } = req.params;
         const { assigned_to, description, priority_level, completion_status } = req.body;
 
-        // Find the task by ID
+        // Finding the task by ID
         const task = await Task.findByPk(id);
 
         if (!task) {
