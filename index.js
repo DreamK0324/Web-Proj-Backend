@@ -9,8 +9,8 @@ app.use(cors());
 app.use(express.json());
 
 // specific routes
-const sequelize = new Sequelize('d512eqqtg7m8s', 'triiucjshnbpmf', '0132557da8f583041f643af42be31c9b054f6f6ff5de4150aa4f1269cb415b03', {
-    host: 'ec2-52-205-171-232.compute-1.amazonaws.com',
+const sequelize = new Sequelize('d25c0l5l7t7n59', 'jihqumowedxuin', 'beeefa2bddc9eda2b7ebb00417458ee5d5d19967bc4f5722fd0b8f8534c398ac', {
+    host: 'ec2-34-236-103-63.compute-1.amazonaws.com',
     dialect: 'postgres',
     port: 5432,
     protocol: 'postgres',
@@ -22,7 +22,7 @@ const sequelize = new Sequelize('d512eqqtg7m8s', 'triiucjshnbpmf', '0132557da8f5
     }
   });
 
-  sequelize.authenticate()
+sequelize.authenticate()
   .then(() => {
     console.log('Connection has been established successfully.');
   })
@@ -268,8 +268,6 @@ app.delete('/tasks/:id', async (req, res) => {
 // listen to the server
 sequelize.sync().then(() => {
     app.listen(4000, () => {
-      console.log("Server has started on port 4000");
+        console.log("Server has started on port 4000");
     });
-  });
-  
- 
+});
