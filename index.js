@@ -32,7 +32,7 @@ sequelize.authenticate()
 
 // Define the "Employee" model
 const Employee = sequelize.define('Employee', {
-    firstnamee: {
+    firstname: {
         type: DataTypes.STRING,
         allowNull: false,
     },
@@ -68,11 +68,11 @@ Task.init({
 // create a employee
 app.post('/employees', async (req, res) => {
     try {
-        const { firstnamee, lastname, department } = req.body;
+        const { firstname, lastname, department } = req.body;
 
         // Create a new employee using the Employee model
         const newEmployee = await Employee.create({
-            firstnamee,
+            firstname,
             lastname,
             department,
         });
@@ -169,7 +169,7 @@ app.get("/tasks/:id", async (req, res) => {
 app.put("/employees/:id", async (req, res) => {
     try {
         const { id } = req.params;
-        const { firstnamee, lastname, department } = req.body;
+        const { firstname, lastname, department } = req.body;
 
         // Find the employee by ID
         const employee = await Employee.findByPk(id);
@@ -179,7 +179,7 @@ app.put("/employees/:id", async (req, res) => {
         }
 
         // Update the employee's properties
-        employee.firstnamee = firstnamee;
+        employee.firstname = firstname;
         employee.lastname = lastname;
         employee.department = department;
 
