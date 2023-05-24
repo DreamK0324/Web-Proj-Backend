@@ -22,7 +22,7 @@ const sequelize = new Sequelize('d512eqqtg7m8s', 'triiucjshnbpmf', '0132557da8f5
     }
   });
 
-sequelize.authenticate()
+  sequelize.authenticate()
   .then(() => {
     console.log('Connection has been established successfully.');
   })
@@ -32,15 +32,15 @@ sequelize.authenticate()
 
 // Define the "Employee" model
 const Employee = sequelize.define('Employee', {
-    firstname: {
+    employee_first_name: {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    lastname: {
+    employee_last_name: {
         type: DataTypes.STRING,
         allowNull: true,
     },
-    department: {
+    department_name: {
         type: DataTypes.STRING,
         allowNull: false,
     },
@@ -61,20 +61,20 @@ Task.init({
         }
     },
     description: DataTypes.STRING,
-    priority: DataTypes.INTEGER,
-    isComplet: DataTypes.BOOLEAN
+    priority_level: DataTypes.INTEGER,
+    completion_status: DataTypes.BOOLEAN
 }, { sequelize, modelName: 'Task' });
 
 // create a employee
 app.post('/employees', async (req, res) => {
     try {
-        const { firstname, lastname, department } = req.body;
+        const { employee_first_name, employee_last_name, department_name } = req.body;
 
         // Create a new employee using the Employee model
         const newEmployee = await Employee.create({
-            firstname,
-            lastname,
-            department,
+            employee_first_name,
+            employee_last_name,
+            department_name,
         });
 
         res.json(newEmployee);
@@ -87,12 +87,12 @@ app.post('/employees', async (req, res) => {
 //creates a task 
 app.post("/tasks", async (req, res) => {
     try {
-        const { assigned_to, description, priority, isComplet } = req.body;
+        const { assigned_to, description, priority_level, completion_status } = req.body;
         const newTask = await Task.create({
             assigned_to,
             description,
-            priority,
-            isComplet
+            priority_level,
+            completion_status
         });
 
         res.json(newTask);
@@ -169,7 +169,7 @@ app.get("/tasks/:id", async (req, res) => {
 app.put("/employees/:id", async (req, res) => {
     try {
         const { id } = req.params;
-        const { firstname, lastname, department } = req.body;
+        const { employee_first_name, employee_last_name, department_name } = req.body;
 
         // Find the employee by ID
         const employee = await Employee.findByPk(id);
@@ -179,9 +179,9 @@ app.put("/employees/:id", async (req, res) => {
         }
 
         // Update the employee's properties
-        employee.firstname = firstname;
-        employee.lastname = lastname;
-        employee.department = department;
+        employee.employee_first_name = employee_first_name;
+        employee.employee_last_name = employee_last_name;
+        employee.department_name = department_name;
 
         // Save the updated employee
         await employee.save();
@@ -201,7 +201,7 @@ app.put("/employees/:id", async (req, res) => {
 app.put('/tasks/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        const { assigned_to, description, priority, isComplet } = req.body;
+        const { assigned_to, description, priority_level, completion_status } = req.body;
 
         // Find the task by ID
         const task = await Task.findByPk(id);
@@ -213,8 +213,8 @@ app.put('/tasks/:id', async (req, res) => {
         // Update the task's properties
         task.assigned_to = assigned_to;
         task.description = description;
-        task.priority = priority;
-        task.isComplet = isComplet;
+        task.priority_level = priority_level;
+        task.completion_status = completion_status;
 
         // Save the updated task
         await task.save();
