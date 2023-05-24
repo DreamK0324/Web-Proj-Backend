@@ -1,7 +1,8 @@
 const { Sequelize, Model, DataTypes } = require('sequelize');
 const express = require("express");
-const app = express();
 const cors = require("cors");
+
+const app = express();
 
 // Middleware
 app.use(cors());
