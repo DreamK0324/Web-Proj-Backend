@@ -9,10 +9,10 @@ app.use(cors());
 app.use(express.json());
 
 // specific routes
-const sequelize = new Sequelize('railway', 'postgres', 'jL6IrL9u957e5Do88OTA', {
-    host: 'containers-us-west-45.railway.app',
+const sequelize = new Sequelize('d512eqqtg7m8s', 'triiucjshnbpmf', '0132557da8f583041f643af42be31c9b054f6f6ff5de4150aa4f1269cb415b03', {
+    host: 'ec2-52-205-171-232.compute-1.amazonaws.com',
     dialect: 'postgres',
-    port: 5776,
+    port: 5432,
     protocol: 'postgres',
     dialectOptions: {
       ssl: {
