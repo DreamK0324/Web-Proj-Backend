@@ -1,3 +1,8 @@
+
+const express = require("express");
+const app = express();
+
+
 // const { Sequelize, Model, DataTypes } = require('sequelize');
 // const express = require("express");
 // const cors = require("cors");
@@ -8,27 +13,27 @@
 // app.use(cors());
 // app.use(express.json());
 
-// // Define the Sequelize configuration and authenticate the connection
-// const sequelize = new Sequelize('d512eqqtg7m8s', 'triiucjshnbpmf', '0132557da8f583041f643af42be31c9b054f6f6ff5de4150aa4f1269cb415b03', {
-//   host: 'ec2-52-205-171-232.compute-1.amazonaws.com',
-//   dialect: 'postgres',
-//   port: 5432,
-//   protocol: 'postgres',
-//   dialectOptions: {
-//     ssl: {
-//       require: true,
-//       rejectUnauthorized: false // You may need to set this to true on production
-//     }
-//   }
-// });
+// Define the Sequelize configuration and authenticate the connection
+const sequelize = new Sequelize('d512eqqtg7m8s', 'triiucjshnbpmf', '0132557da8f583041f643af42be31c9b054f6f6ff5de4150aa4f1269cb415b03', {
+  host: 'ec2-52-205-171-232.compute-1.amazonaws.com',
+  dialect: 'postgres',
+  port: 5432,
+  protocol: 'postgres',
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false // You may need to set this to true on production
+    }
+  }
+});
 
-// sequelize.authenticate()
-//   .then(() => {
-//     console.log('Connection has been established successfully.');
-//   })
-//   .catch((err) => {
-//     console.error('Unable to connect to the database:', err);
-//   });
+sequelize.authenticate()
+  .then(() => {
+    console.log('Connection has been established successfully.');
+  })
+  .catch((err) => {
+    console.error('Unable to connect to the database:', err);
+  });
 
 // // Define the "Employee" model
 // const Employee = sequelize.define('Employee', {
@@ -228,8 +233,6 @@
 // });
 
 
-const express = require("express");
-const app = express();
 
 app.get("/", (reg, res) => {
     res.send({
