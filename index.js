@@ -268,7 +268,7 @@ app.delete('/tasks/:id', async (req, res) => {
 // listen to the server
 sequelize.sync().then(() => {
     //const port = process.env.PORT || 4005;
-    const port = 4005;
+    const port = 41717;
     app.listen(port, () => {
       console.log(`Server has started on port ${port}`);
     });
