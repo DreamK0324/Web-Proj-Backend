@@ -32,15 +32,15 @@ sequelize.authenticate()
 
 // Define the "Employee" model
 const Employee = sequelize.define('Employee', {
-    firstname: {
+    employee_first_name: {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    lastname: {
+    employee_last_name: {
         type: DataTypes.STRING,
         allowNull: true,
     },
-    department: {
+    department_name: {
         type: DataTypes.STRING,
         allowNull: false,
     },
@@ -68,13 +68,13 @@ Task.init({
 // create a employee
 app.post('/employees', async (req, res) => {
     try {
-        const { firstname, lastname, department } = req.body;
+        const { employee_first_name, employee_last_name, department_name } = req.body;
 
         // Create a new employee using the Employee model
         const newEmployee = await Employee.create({
-            firstname,
-            lastname,
-            department,
+            employee_first_name,
+            employee_last_name,
+            department_name,
         });
 
         res.json(newEmployee);
@@ -169,7 +169,7 @@ app.get("/tasks/:id", async (req, res) => {
 app.put("/employees/:id", async (req, res) => {
     try {
         const { id } = req.params;
-        const { firstname, lastname, department } = req.body;
+        const { employee_first_name, employee_last_name, department_name } = req.body;
 
         // Find the employee by ID
         const employee = await Employee.findByPk(id);
@@ -179,9 +179,9 @@ app.put("/employees/:id", async (req, res) => {
         }
 
         // Update the employee's properties
-        employee.firstname = firstname;
-        employee.lastname = lastname;
-        employee.department = department;
+        employee.employee_first_name = employee_first_name;
+        employee.employee_last_name = employee_last_name;
+        employee.department_name = department_name;
 
         // Save the updated employee
         await employee.save();
