@@ -34,7 +34,7 @@ const sequelize = new Sequelize('d512eqqtg7m8s', 'triiucjshnbpmf', '0132557da8f5
 const Employee = sequelize.define('Employee', {
     employee_first_name: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
     },
     employee_last_name: {
         type: DataTypes.STRING,
@@ -42,7 +42,7 @@ const Employee = sequelize.define('Employee', {
     },
     department_name: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
     },
 });
 
