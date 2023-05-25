@@ -3,7 +3,7 @@ Final-Backend CSCI 39548 Final Project
 Employee management application
 
 
-#Preparations for terminal before compilation
+#Preparations for terminal
 
  
   ```
