@@ -1,7 +1,8 @@
 const { Sequelize, Model, DataTypes } = require('sequelize');
+const cors = require("cors");
 const express = require("express");
 const app = express();
-const cors = require("cors");
+
 
 
 // middleware
@@ -62,6 +63,58 @@ Task.init({
     completion_status: DataTypes.BOOLEAN
 }, { sequelize, modelName: 'Task' });
 
+
+// Getting all employees //http://localhost:4000/employees
+app.get("/employees", async (req, res) => {
+    try {
+        const allEmployees = await Employee.findAll();
+        res.json(allEmployees);
+    } catch (err) {
+        console.error(err.message);
+    }
+});
+
+
+// Getting all tasks // http://localhost:4000/tasks
+app.get("/tasks", async (req, res) => {
+    try {
+        const allTasks = await Task.findAll();
+        res.json(allTasks);
+    } catch (err) {
+        console.error(err.message);
+    }
+});
+
+
+// Getting employee by id // http://localhost:4000/employees/1
+app.get("/employees/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const oneEmployee = await Employee.findByPk(id);
+        res.json(oneEmployee);
+    } catch (err) {
+        console.error(err.message);
+    }
+});
+
+// Getting task by id // http://localhost:4000/tasks/2
+app.get("/tasks/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const task = await Task.findByPk(id);
+        if (task) {
+            res.json(task);
+        } else {
+            res.status(404).json({ error: "Task not found" });
+        }
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).json({ error: "Server error" });
+    }
+});
+
+
+
 // Creating a employee
 app.post('/employees', async (req, res) => {
     try {
@@ -99,54 +152,6 @@ app.post("/tasks", async (req, res) => {
     }
 });
 
-
-// Getting all employees //http://localhost:4000/employees
-app.get("/employees", async (req, res) => {
-    try {
-        const allEmployees = await Employee.findAll();
-        res.json(allEmployees);
-    } catch (err) {
-        console.error(err.message);
-    }
-});
-
-
-// Getting all tasks // http://localhost:4000/tasks
-app.get("/tasks", async (req, res) => {
-    try {
-        const allTasks = await Task.findAll();
-        res.json(allTasks);
-    } catch (err) {
-        console.error(err.message);
-    }
-});
-
-// Getting employee by id // http://localhost:4000/employees/1
-app.get("/employees/:id", async (req, res) => {
-    try {
-        const { id } = req.params;
-        const oneEmployee = await Employee.findByPk(id);
-        res.json(oneEmployee);
-    } catch (err) {
-        console.error(err.message);
-    }
-});
-
-// Getting task by id // http://localhost:4000/tasks/2
-app.get("/tasks/:id", async (req, res) => {
-    try {
-        const { id } = req.params;
-        const task = await Task.findByPk(id);
-        if (task) {
-            res.json(task);
-        } else {
-            res.status(404).json({ error: "Task not found" });
-        }
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).json({ error: "Server error" });
-    }
-});
 
 
 // Editing employee by id // http://localhost:4000/employees/
