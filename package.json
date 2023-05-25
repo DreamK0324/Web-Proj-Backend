@@ -10,6 +10,10 @@
     "type": "git",
     "url": "git+https://github.com/DreamK0324/Web-Proj-Backend.git"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DreamK0324/Web-Proj-Backend.git"
+  },
   "author": "",
   "license": "ISC",
   "bugs": {
